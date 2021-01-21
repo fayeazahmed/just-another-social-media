@@ -1,13 +1,15 @@
 const { Router } = require("express");
 const client = require("./database");
 const auth = require("./auth");
+const { storage, upload, bucketName } = require("./config");
 const router = Router();
+const path = require("path");
 
-router.get("/", auth, async (req, res, next) => {
+router.get("/:id", auth, async (req, res, next) => {
   try {
-    const userId = req.body.userId;
+    const userId = req.params.id;
     const response = await client.query(
-      "SELECT * FROM post WHERE user_id = $1",
+      "SELECT * FROM post WHERE user_id = $1 ORDER BY date_posted desc",
       [userId]
     );
     res.send(response.rows);
@@ -18,14 +20,29 @@ router.get("/", auth, async (req, res, next) => {
 
 router.post("/", auth, async (req, res, next) => {
   try {
-    const userId = req.body.userId;
-    const content = req.body.content;
-    const photo = req.body.photo;
-    await client.query(
-      "INSERT INTO post (content, photo, user_id) VALUES ($1, $2, $3) RETURNING *",
-      [content, photo, userId]
-    );
-    res.send("Post created");
+    upload(req, res, async function (err) {
+      if (err) {
+        res.send("There was an error uploading the image.");
+      } else {
+        let post = await client.query(
+          "INSERT INTO post (content, user_id) VALUES ($1, $2) RETURNING *",
+          [req.body.content, req.body.userId]
+        );
+        const postId = post.rows[0].id;
+        if (req.file) {
+          await storage
+            .bucket(bucketName)
+            .upload(path.join(__dirname, "../public/", req.file.filename), {
+              destination: `User posts/${req.body.userId}/${req.file.filename}`,
+            });
+          post = await client.query(
+            "UPDATE post SET photo=$1 WHERE id=$2 returning *",
+            [req.file.filename, postId]
+          );
+        }
+        res.send(post.rows[0]);
+      }
+    });
   } catch (error) {
     next(error);
   }
@@ -33,13 +50,13 @@ router.post("/", auth, async (req, res, next) => {
 
 router.patch("/", auth, async (req, res, next) => {
   try {
-    const postId = req.body.postId;
+    const postId = req.body.id;
     const content = req.body.content;
     await client.query("UPDATE post SET content = $1 WHERE id = $2", [
       content,
       postId,
     ]);
-    res.send("Post edited");
+    res.send("Post updated");
   } catch (error) {
     next(error);
   }

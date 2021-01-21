@@ -3,9 +3,9 @@ const client = require("./database");
 const auth = require("./auth");
 const router = Router();
 
-router.get("/", auth, async (req, res, next) => {
+router.get("/:id", auth, async (req, res, next) => {
   try {
-    const userId = req.body.userId;
+    const userId = req.params.id;
     const response = await client.query(
       "SELECT * FROM following WHERE follower = $1",
       [userId]

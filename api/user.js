@@ -19,21 +19,6 @@ router.get("/:id", auth, async (req, res, next) => {
   }
 });
 
-router.patch("/:id", auth, async (req, res, next) => {
-  try {
-    const id = req.params.id;
-    const { name, bio } = req.body;
-    await client.query("UPDATE users SET name=$1, bio=$2 WHERE id=$3 ", [
-      name,
-      bio,
-      id,
-    ]);
-    res.send(true);
-  } catch (error) {
-    next(error);
-  }
-});
-
 router.delete("/:id", auth, async (req, res, next) => {
   try {
     const id = req.params.id;
@@ -86,47 +71,108 @@ router.post("/login", async (req, res, next) => {
 router.post("/new", async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
-    if (password.length < 6) {
-      res.status(412).send({ message: "Password must greater than 6" });
-    }
     const response = await client.query(
       "SELECT * FROM users WHERE email = $1",
       [email]
     );
     if (response.rowCount === 0) {
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(password, salt);
-      await client.query(
-        "INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING *",
-        [name, email, hashedPassword]
-      );
-      res.send(true);
+      if (password.length < 6) {
+        res.status(412).send("Password must greater than 6");
+      } else {
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+        await client.query(
+          "INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING *",
+          [name, email, hashedPassword]
+        );
+        res.send("Account created successfully");
+      }
     } else {
-      res.status(412).json({ message: "Email already exists" });
+      res.status(412).send("Email already exists");
     }
   } catch (error) {
-    console.log(error.message);
     next(error);
   }
 });
 
-router.post("/updatedp", auth, async (req, res, next) => {
+router.post("/changepassword", auth, async (req, res, next) => {
+  try {
+    const { password, password2, id } = req.body;
+    console.log(req.body);
+    const response = await client.query("SELECT * FROM users WHERE id = $1", [
+      id,
+    ]);
+    const user = response.rows[0];
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (isMatch) {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(password2, salt);
+      await client.query("UPDATE users SET password=$1 WHERE id=$2 ", [
+        hashedPassword,
+        id,
+      ]);
+      res.send("Password changed");
+    } else {
+      res.status(401).send("Passwords do not match");
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post("/search", auth, async (req, res, next) => {
+  try {
+    const { searchTerm } = req.body;
+    const response = await client.query(
+      `SELECT * FROM users WHERE UPPER(name) LIKE UPPER('%${searchTerm}%')`
+    );
+    if (response.rowCount === 0) {
+      res.status(404).send("No user found");
+    } else {
+      res.send(response.rows);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post("/:id", auth, async (req, res, next) => {
   try {
     upload(req, res, async function (err) {
       if (err) {
         res.send("There was an error uploading the image.");
       } else {
-        await storage
-          .bucket(bucketName)
-          .upload(path.join(__dirname, "../public/", req.file.filename), {
-            destination: `User DP/${req.file.filename}`,
-          });
+        const id = req.params.id;
+        const { name, bio, email } = req.body;
+        let user = await client.query("SELECT * FROM users WHERE id=$1 ", [id]);
+        user = user.rows[0];
+        if (user.email !== email) {
+          const validateMail = await client.query(
+            "SELECT email FROM users WHERE email=$1 ",
+            [email]
+          );
+          if (validateMail.rowCount !== 0) {
+            res.status(400).send("Email already in use!");
+          }
+        } else {
+          await client.query(
+            "UPDATE users SET name=$1, bio=$2, email=$3 WHERE id=$4 ",
+            [name, bio, email, id]
+          );
+        }
+        if (req.file) {
+          await storage
+            .bucket(bucketName)
+            .upload(path.join(__dirname, "../public/", req.file.filename), {
+              destination: `User DP/${req.file.filename}`,
+            });
 
-        await client.query("UPDATE users SET photo=$1 WHERE id=$2 ", [
-          req.file.filename,
-          req.body.id,
-        ]);
-        res.send("Successfully updated");
+          await client.query("UPDATE users SET photo=$1 WHERE id=$2 ", [
+            req.file.filename,
+            id,
+          ]);
+        }
+        res.send("Changes are saved");
       }
     });
   } catch (error) {
