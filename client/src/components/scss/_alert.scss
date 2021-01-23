@@ -1,0 +1,21 @@
+.notifications {
+  position: absolute;
+  top: 70px;
+  left: 50%;
+  width: 100vw;
+  padding: 0;
+  font-family: "Roboto Condensed", sans-serif;
+  font-size: 20px;
+  opacity: 0;
+  transform: translateX(-150%);
+  transition: all 0.5s;
+
+  div {
+    padding: 10px 0;
+  }
+}
+
+.opacity-1 {
+  opacity: 1;
+  transform: translateX(-50%);
+}

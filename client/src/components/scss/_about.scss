@@ -1,0 +1,20 @@
+.about {
+  min-height: calc(100vh - 70px);
+  background-color: $primary-theme;
+
+  p {
+    font-family: "Yusei Magic";
+    text-align: left;
+    padding: 25px;
+    font-size: 25px;
+  }
+
+  &__smedia {
+    font-family: "Black Ops One", cursive;
+  }
+
+  &__firebase {
+    color: #ed6601;
+    text-shadow: -1px 0px 1px black;
+  }
+}

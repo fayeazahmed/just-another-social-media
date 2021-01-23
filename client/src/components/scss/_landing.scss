@@ -1,0 +1,29 @@
+.landing {
+  background-color: #e7f1f3;
+  min-height: calc(100vh - 70px);
+
+  header {
+    font-family: "Cutive", serif;
+    font-size: 25px;
+    margin: auto;
+    padding-top: 25px;
+
+    @media (min-width: 780px) {
+      width: 600px;
+    }
+
+    span {
+      font-family: "Black Ops One", cursive;
+    }
+  }
+
+  &__links {
+    margin: 15px auto;
+    display: flex;
+    justify-content: space-between;
+
+    @media (min-width: 780px) {
+      width: 600px;
+    }
+  }
+}

@@ -1,0 +1,142 @@
+.post {
+  background-color: $nav-theme;
+  padding: 15px;
+  border-radius: 10px;
+  position: relative;
+
+  .postDltBtn {
+    margin-left: 5px;
+  }
+
+  &__modal {
+    position: absolute;
+    right: 34px;
+    background-color: white;
+    top: 5px;
+    padding: 5px;
+    border-radius: 5px;
+    z-index: 90;
+
+    button:focus {
+      box-shadow: none;
+    }
+  }
+
+  &__actions {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+  }
+
+  &__header {
+    align-items: center;
+
+    &:hover {
+      color: #0a58ca;
+    }
+
+    img {
+      height: 30px;
+      width: 30px;
+      border-radius: 50%;
+      object-fit: contain;
+    }
+
+    p {
+      margin-left: 10px;
+      font-family: "Roboto Mono", monospace;
+    }
+  }
+
+  &__image {
+    background-color: rgba(255, 255, 255, 0.3);
+    margin-top: 10px;
+    padding: 15px;
+    border-radius: 10px;
+
+    img {
+      width: 100%;
+      object-fit: contain;
+    }
+  }
+
+  &__timestamp {
+    font-family: "Nunito", sans-serif;
+    font-weight: bold;
+    text-align: left;
+    margin-top: 5px;
+  }
+
+  &__content {
+    position: relative;
+    color: maroon;
+
+    &:focus {
+      box-shadow: none;
+    }
+  }
+
+  textarea {
+    width: 100%;
+    resize: none;
+    text-align: left;
+    overflow: hidden;
+
+    &:focus {
+      box-shadow: none;
+    }
+  }
+
+  &__likes {
+    font-size: 17px;
+    display: flex;
+
+    div {
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.5);
+      padding: 5px;
+      border-radius: 5px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    i {
+      color: red;
+      transition: all 0.1s;
+      &:hover {
+        transform: scale(1.5);
+        opacity: 0.7;
+      }
+    }
+  }
+  &__comments {
+    input {
+      padding: 2px 5px;
+      text-align: left;
+      width: 100%;
+      font-size: 14px;
+      border-radius: 5px;
+      border-style: hidden;
+
+      &:focus {
+        outline: 0;
+      }
+    }
+    p {
+      text-align: left;
+      font-family: monospace;
+      font-size: 15px;
+    }
+  }
+
+  &__saveBtn {
+    position: absolute;
+    right: 15px;
+    top: 52px;
+
+    &:focus {
+      box-shadow: none;
+    }
+  }
+}

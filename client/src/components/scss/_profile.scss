@@ -1,0 +1,121 @@
+.profile {
+  min-height: calc(100vh - 70px);
+  background-color: $primary-theme;
+
+  &__edit {
+    position: absolute;
+    right: -100px;
+    top: 0;
+    font-family: "Yusei Magic", sans-serif;
+
+    @media (max-width: $default-width) {
+      right: 0;
+    }
+
+    button:focus {
+      box-shadow: none;
+    }
+  }
+
+  &__follow {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    font-family: "Yusei Magic", sans-serif;
+
+    @media (min-width: $default-width) {
+      right: -100px;
+      top: 0;
+    }
+
+    button {
+      @media (max-width: $default-width) {
+        padding: 10px;
+        font-size: 12px;
+      }
+      &:focus {
+        box-shadow: none;
+      }
+    }
+  }
+
+  &__header {
+    position: relative;
+    margin: auto;
+
+    @media (min-width: $default-width) {
+      width: $default-width;
+    }
+
+    img {
+      height: 100px;
+      object-fit: contain;
+    }
+  }
+  &__username {
+    font-family: "Roboto Mono", monospace;
+    font-size: 30px;
+    text-align: left;
+  }
+
+  &__email {
+    font-size: 20px;
+    text-align: left;
+    font-family: "Yusei Magic", sans-serif;
+  }
+
+  &__bio {
+    margin: auto;
+    @media (min-width: $default-width) {
+      width: $default-width;
+    }
+
+    p {
+      text-align: left;
+      font-family: "Nunito", sans-serif;
+      font-size: 30px;
+    }
+  }
+
+  &__editForm {
+    margin: auto;
+
+    @media (min-width: $default-width) {
+      width: $default-width;
+    }
+
+    input {
+      text-align: left;
+      margin-top: 10px;
+
+      &:focus {
+        box-shadow: none;
+        outline: 0;
+      }
+    }
+  }
+
+  &__confirmDlt {
+    position: absolute;
+    top: 0;
+    right: -100px;
+    height: 100%;
+    z-index: 200;
+
+    input {
+      height: 20%;
+      text-align: lefts;
+    }
+
+    button {
+      height: 80%;
+      transition: all 0.3s;
+      display: block;
+      width: 100%;
+
+      &:hover {
+        transform: scale(1.5);
+      }
+    }
+  }
+}

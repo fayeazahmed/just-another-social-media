@@ -1,0 +1,26 @@
+@import url("https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Yusei+Magic&family=Nunito&family=Roboto+Mono&family=Roboto+Condensed&family=Open+Sans&family=Cutive&family=Rubik&display=swap");
+@import "components/scss/variables";
+@import "components/scss/post";
+@import "components/scss/nav";
+@import "components/scss/landing";
+@import "components/scss/signin";
+@import "components/scss/alert";
+@import "components/scss/feed";
+@import "components/scss/profile";
+@import "components/scss/comment";
+@import "components/scss/about";
+
+.App {
+  padding-top: 70px;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  &:hover {
+    text-decoration: none;
+  }
+}

@@ -1,0 +1,14 @@
+.comment {
+  display: flex;
+  align-items: center;
+
+  &__user {
+    font-family: "Roboto Mono", monospace;
+    color: blue;
+  }
+
+  i {
+    transform: scale(0.8);
+    margin-left: 5px;
+  }
+}

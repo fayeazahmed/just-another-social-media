@@ -1,0 +1,20 @@
+.signin {
+  form {
+    text-align: left;
+    margin: auto;
+
+    @media (min-width: 780px) {
+      width: 600px;
+    }
+  }
+
+  label {
+    margin-top: 20px;
+    font-family: "Open Sans", sans-serif;
+    font-size: 20px;
+  }
+
+  input:focus {
+    box-shadow: none;
+  }
+}

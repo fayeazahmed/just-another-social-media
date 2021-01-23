@@ -1,0 +1,147 @@
+nav {
+  display: flex;
+  position: fixed;
+  top: 0;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+  width: 100vw;
+  background-color: $nav-theme;
+  z-index: 100;
+  box-shadow: 0px 1px 5px black;
+
+  a,
+  a:hover {
+    text-decoration: none;
+  }
+
+  .invisible {
+    opacity: 0;
+  }
+
+  form {
+    flex-grow: 0.9;
+    transition: all 0.3s;
+    @media (max-width: $default-width) {
+      position: absolute;
+      top: 105%;
+      width: 100vw;
+      opacity: 1;
+    }
+
+    input:focus {
+      box-shadow: none !important;
+    }
+  }
+
+  header {
+    font-family: "Black Ops One", cursive;
+    font-size: 17px;
+    padding: 10px;
+    color: black;
+    text-shadow: -1px 2px 3px #6c757d;
+  }
+
+  .navbtns {
+    height: 100%;
+    transition: all 0.3s;
+
+    &--activated {
+      transform: translateX(0) !important;
+      opacity: 1 !important;
+    }
+
+    @media (max-width: $default-width) {
+      background: black;
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      right: 0;
+      top: 105%;
+      text-align: left;
+      height: auto;
+      width: 50vw;
+      transform: translateX(101%);
+      opacity: 0;
+    }
+
+    button {
+      height: 100%;
+      border-radius: 0 !important;
+      padding: 0 30px;
+      font-family: "Rubik", sans-serif;
+      font-size: 20px;
+      background-color: $nav-theme;
+      border: 0;
+      text-shadow: -1px 2px 2px black;
+
+      @media (max-width: $default-width) {
+        width: 100%;
+        padding: 30px;
+      }
+
+      &:focus {
+        box-shadow: none;
+      }
+    }
+  }
+
+  .searchDiv {
+    position: absolute;
+    top: 70px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 5px;
+    padding: 18px;
+
+    @media (max-width: $default-width) {
+      top: 160%;
+      background: rgba(255, 255, 255, 0.85);
+      width: 100vw;
+    }
+
+    &__user {
+      margin-bottom: 10px;
+      cursor: pointer;
+      padding: 5px 30px;
+      border-radius: 5px;
+      transition: all 0.2s;
+      display: block;
+      text-align: left;
+      color: #451b1b;
+
+      &:hover {
+        background: $nav-theme;
+      }
+    }
+
+    h4,
+    h6 {
+      margin: 0;
+    }
+
+    button {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+  }
+
+  .menu {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    color: white;
+    transform: translateY(-50%);
+    display: none;
+
+    i {
+      font-size: 30px;
+      color: white;
+      text-shadow: 1px 1px 1px black;
+    }
+
+    @media (max-width: $default-width) {
+      display: block;
+    }
+  }
+}
