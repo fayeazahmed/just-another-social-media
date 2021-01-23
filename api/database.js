@@ -1,11 +1,10 @@
 const { Client } = require("pg");
 
 const client = new Client({
-  user: "postgres",
-  password: "tiger",
-  host: "localhost",
-  port: 5433,
-  database: "socialmedia",
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
 (async function () {
   client.connect();

@@ -21,6 +21,6 @@ const upload = multer({
 }).single("image");
 
 const bucketName = "social-media-100.appspot.com";
-const jwtsecret = "jwtsecret";
+const jwtsecret = process.env.jwtsecret;
 
 module.exports = { jwtsecret, storage, upload, bucketName };
