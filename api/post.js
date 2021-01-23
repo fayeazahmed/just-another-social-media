@@ -18,6 +18,38 @@ router.get("/:id", auth, async (req, res, next) => {
   }
 });
 
+router.post("/feed", auth, async (req, res, next) => {
+  const getFollowingPosts = async (userId) => {
+    const posts = await client.query(
+      "SELECT * FROM post WHERE user_id = $1 ORDER BY date_posted desc",
+      [userId]
+    );
+    return posts.rows;
+  };
+
+  try {
+    const userId = req.body.id;
+    let response = await client.query(
+      "SELECT * FROM post WHERE user_id = $1 ORDER BY date_posted desc",
+      [userId]
+    );
+    const posts = response.rows;
+    response = await client.query(
+      "SELECT followee FROM following WHERE follower = $1",
+      [userId]
+    );
+    const followees = response.rows;
+    for (const followee of followees) {
+      const followeePosts = await getFollowingPosts(followee.followee);
+      posts.unshift(...followeePosts);
+    }
+
+    res.send(posts);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.post("/", auth, async (req, res, next) => {
   try {
     upload(req, res, async function (err) {

@@ -4,9 +4,9 @@ const auth = require("./auth");
 const e = require("express");
 const router = Router();
 
-router.get("/", auth, async (req, res, next) => {
+router.get("/:id", auth, async (req, res, next) => {
   try {
-    const postId = req.body.postId;
+    const postId = req.params.id;
     const response = await client.query(
       "SELECT * FROM likes WHERE post_id = $1",
       [postId]
@@ -41,9 +41,9 @@ router.post("/", auth, async (req, res, next) => {
   }
 });
 
-router.delete("/", auth, async (req, res, next) => {
+router.delete("/:id", auth, async (req, res, next) => {
   try {
-    const likeId = req.body.likeId;
+    const likeId = req.params.id;
     await client.query("DELETE FROM likes WHERE id = $1", [likeId]);
     res.send("Like removed");
   } catch (error) {

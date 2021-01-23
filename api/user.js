@@ -19,19 +19,28 @@ router.get("/:id", auth, async (req, res, next) => {
   }
 });
 
-router.delete("/:id", auth, async (req, res, next) => {
+router.delete("/", auth, async (req, res, next) => {
   try {
-    const id = req.params.id;
-    const { password } = req.body;
+    const { password, id } = req.body;
     let user = await client.query("SELECT * FROM users WHERE id = $1", [id]);
     user = user.rows[0];
     const isMatch = await bcrypt.compare(password, user.password);
     if (isMatch) {
       await client.query("DELETE FROM users WHERE id = $1", [id]);
-      res.json({ message: "User deleted" });
+      res.send("Your account is deleted");
     } else {
-      res.status(401).json({ message: "Password does not match" });
+      res.status(401).send("Password does not match");
     }
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.delete("/:accountId", auth, async (req, res, next) => {
+  try {
+    const { accountId } = req.params;
+    await client.query("DELETE FROM users WHERE id = $1", [accountId]);
+    res.send("Account deleted");
   } catch (error) {
     next(error);
   }
@@ -98,7 +107,6 @@ router.post("/new", async (req, res, next) => {
 router.post("/changepassword", auth, async (req, res, next) => {
   try {
     const { password, password2, id } = req.body;
-    console.log(req.body);
     const response = await client.query("SELECT * FROM users WHERE id = $1", [
       id,
     ]);
@@ -122,9 +130,9 @@ router.post("/changepassword", auth, async (req, res, next) => {
 
 router.post("/search", auth, async (req, res, next) => {
   try {
-    const { searchTerm } = req.body;
+    const { searchTerm, userId } = req.body;
     const response = await client.query(
-      `SELECT * FROM users WHERE UPPER(name) LIKE UPPER('%${searchTerm}%')`
+      `SELECT * FROM users WHERE UPPER(name) LIKE UPPER('%${searchTerm}%') AND NOT id = ${userId}`
     );
     if (response.rowCount === 0) {
       res.status(404).send("No user found");

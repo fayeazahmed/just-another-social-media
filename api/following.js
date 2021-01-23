@@ -27,11 +27,11 @@ router.post("/", auth, async (req, res, next) => {
     );
 
     if (isAlreadyFollowing.rowCount === 0) {
-      await client.query(
+      const followed = await client.query(
         "INSERT INTO following (follower, followee) VALUES ($1, $2) RETURNING *",
         [followerId, followeeId]
       );
-      res.send("Started following");
+      res.send(followed.rows[0]);
     } else {
       res.send("Already following");
     }
