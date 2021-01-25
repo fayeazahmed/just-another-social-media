@@ -11,7 +11,7 @@ const Navbar = ({ logout, isAuthenticated, setUser, setAlert, user }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResult, setSearchResult] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [searchBarOpen, setSearchBarOpen] = useState(false);
+  const [searchInMobile, setSearchInMobile] = useState(false);
 
   useEffect(() => {
     if (sessionStorage["userId"]) {
@@ -19,6 +19,10 @@ const Navbar = ({ logout, isAuthenticated, setUser, setAlert, user }) => {
       setUser();
     }
   }, [setUser]);
+
+  const visibility = {
+    visibility: "visible",
+  };
 
   return (
     <nav>
@@ -30,7 +34,7 @@ const Navbar = ({ logout, isAuthenticated, setUser, setAlert, user }) => {
       </Link>
       {isAuthenticated && (
         <form
-          className={!searchBarOpen ? "invisible" : ""}
+          style={searchInMobile ? visibility : {}}
           onSubmit={(e) => {
             e.preventDefault();
             requests
@@ -54,7 +58,7 @@ const Navbar = ({ logout, isAuthenticated, setUser, setAlert, user }) => {
         <div
           onClick={() => {
             setSearchResult(null);
-            setSearchBarOpen(false);
+            setSearchInMobile(false);
           }}
           className="searchDiv"
         >
@@ -102,7 +106,7 @@ const Navbar = ({ logout, isAuthenticated, setUser, setAlert, user }) => {
       <div className="menu">
         {isAuthenticated && (
           <i
-            onClick={() => setSearchBarOpen(!searchBarOpen)}
+            onClick={() => setSearchInMobile(!searchInMobile)}
             className="fa fa-search fa-2x btn"
             aria-hidden="true"
           ></i>
