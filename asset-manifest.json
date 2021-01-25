@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/just-another-social-media/static/css/main.1d2093e6.chunk.css",
-    "main.js": "/just-another-social-media/static/js/main.c9830f17.chunk.js",
-    "main.js.map": "/just-another-social-media/static/js/main.c9830f17.chunk.js.map",
+    "main.css": "/just-another-social-media/static/css/main.6b8de075.chunk.css",
+    "main.js": "/just-another-social-media/static/js/main.5e2678a6.chunk.js",
+    "main.js.map": "/just-another-social-media/static/js/main.5e2678a6.chunk.js.map",
     "runtime-main.js": "/just-another-social-media/static/js/runtime-main.051684af.js",
     "runtime-main.js.map": "/just-another-social-media/static/js/runtime-main.051684af.js.map",
     "static/js/2.8fcaaaab.chunk.js": "/just-another-social-media/static/js/2.8fcaaaab.chunk.js",
     "static/js/2.8fcaaaab.chunk.js.map": "/just-another-social-media/static/js/2.8fcaaaab.chunk.js.map",
     "index.html": "/just-another-social-media/index.html",
-    "static/css/main.1d2093e6.chunk.css.map": "/just-another-social-media/static/css/main.1d2093e6.chunk.css.map",
+    "static/css/main.6b8de075.chunk.css.map": "/just-another-social-media/static/css/main.6b8de075.chunk.css.map",
     "static/js/2.8fcaaaab.chunk.js.LICENSE.txt": "/just-another-social-media/static/js/2.8fcaaaab.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.051684af.js",
     "static/js/2.8fcaaaab.chunk.js",
-    "static/css/main.1d2093e6.chunk.css",
-    "static/js/main.c9830f17.chunk.js"
+    "static/css/main.6b8de075.chunk.css",
+    "static/js/main.5e2678a6.chunk.js"
   ]
 }
